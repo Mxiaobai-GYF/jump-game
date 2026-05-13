@@ -5,7 +5,7 @@
 
 ---
 
-## 怎么玩
+## 怎么玩(喵）
 
 | 操作 | 效果 |
 |------|------|
@@ -33,3 +33,17 @@ uvicorn main:app --reload --port 8000
 ---
 
 祝你跳得愉快 🐾
+
+特别鸣谢：
+得力规划决策帮手：deepseek v4 flash
+得力工作大师：workbuddy-deepseekv4pro
+得力翻译官：豆包，微信
+最佳性能单位：机械革命极光x潮玩版
+最佳项目部署平台：railway.com，  
+                                        github.com
+最佳文件传递平台：微信文件传输助手
+                                        QQ闪传
+最佳代码审计测试员：vscode，pytharm
+最脑洞大开之人：本人
+特别差评：vercel.com
+（部署完告诉我链接国内打不开，加速器都不行，纯差评）
