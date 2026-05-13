@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>像素跳跃 - 登录</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    /* 赛博朋克背景渐变：深紫 + 霓虹蓝 + 黑色 */
+    background: linear-gradient(135deg, #0a0015 0%, #1a0040 30%, #0d1b3e 60%, #000 100%);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* 霓虹光晕 */
+  body::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 60%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 50%;
+    height: 70%;
+    background: radial-gradient(circle, rgba(180, 0, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* 网格线（赛博朋克元素） */
+  .grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* 浮动粒子 */
+  .dot {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: rgba(0, 255, 255, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: floatDot 6s infinite alternate ease-in-out;
+  }
+  .dot:nth-child(2) { top: 20%; left: 80%; width: 2px; height: 2px; animation-delay: 1s; background: rgba(180, 0, 255, 0.4); }
+  .dot:nth-child(3) { top: 70%; left: 15%; width: 4px; height: 4px; animation-delay: 2s; }
+  .dot:nth-child(4) { top: 40%; left: 60%; width: 2px; height: 2px; animation-delay: 0.5s; background: rgba(0, 255, 200, 0.3); }
+  .dot:nth-child(5) { top: 85%; left: 70%; width: 3px; height: 3px; animation-delay: 3s; }
+  .dot:nth-child(6) { top: 10%; left: 40%; width: 2px; height: 2px; animation-delay: 1.5s; background: rgba(255, 0, 200, 0.3); }
+  .dot:nth-child(7) { top: 55%; left: 90%; width: 3px; height: 3px; animation-delay: 2.5s; }
+  .dot:nth-child(8) { top: 30%; left: 25%; width: 2px; height: 2px; animation-delay: 0.8s; background: rgba(0, 255, 255, 0.5); }
+
+  @keyframes floatDot {
+    0%   { transform: translateY(0) scale(1); opacity: 0.3; }
+    100% { transform: translateY(-30px) scale(1.4); opacity: 0.8; }
+  }
+
+  /* 毛玻璃卡片 */
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 380px;
+    max-width: 90vw;
+    padding: 40px 36px;
+    background: rgba(20, 10, 40, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    box-shadow:
+      0 0 40px rgba(0, 255, 255, 0.05),
+      0 8px 32px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  /* 标题 */
+  .title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    text-shadow:
+      0 0 10px rgba(0, 255, 255, 0.6),
+      0 0 30px rgba(0, 255, 255, 0.3),
+      0 0 60px rgba(180, 0, 255, 0.2);
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 32px;
+    letter-spacing: 4px;
+  }
+
+  /* 输入框 */
+  .input-group {
+    margin-bottom: 18px;
+    text-align: left;
+  }
+
+  .input-group label {
+    display: block;
+    font-size: 12px;
+    color: rgba(0, 255, 255, 0.6);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .input-group input:focus {
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+  }
+
+  .input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* 按钮行 */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .btn:active { transform: scale(0.96); }
+
+  .btn-login {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 114, 255, 0.3);
+  }
+  .btn-login:hover { box-shadow: 0 0 30px rgba(0, 114, 255, 0.5); }
+
+  .btn-register {
+    background: transparent;
+    color: rgba(0, 255, 255, 0.8);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+  }
+  .btn-register:hover {
+    background: rgba(0, 255, 255, 0.05);
+    border-color: rgba(0, 255, 255, 0.5);
+  }
+
+  /* 错误提示 */
+  .error-msg {
+    color: #ff4d6a;
+    font-size: 13px;
+    margin-top: 14px;
+    min-height: 20px;
+    text-shadow: 0 0 8px rgba(255, 77, 106, 0.3);
+  }
+
+  /* 成功提示 */
+  .success-msg {
+    color: #4ade80;
+    font-size: 13px;
+    margin-top: 14px;
+    min-height: 20px;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
+  }
+
+  /* 加载中按钮状态 */
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid"></div>
+
+<div class="dot" style="top:15%;left:10%;"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+
+<div class="card">
+  <div class="title">像素跳跃 · 云端版</div>
+  <div class="subtitle">PIXEL JUMP ONLINE</div>
+
+  <div class="input-group">
+    <label>用户名</label>
+    <input type="text" id="username" placeholder="输入用户名" autocomplete="off">
+  </div>
+
+  <div class="input-group">
+    <label>密码</label>
+    <input type="password" id="password" placeholder="输入密码">
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-login" id="loginBtn">登 录</button>
+    <button class="btn btn-register" id="registerBtn">注 册</button>
+  </div>
+
+  <div id="errorMsg" class="error-msg"></div>
+  <div id="successMsg" class="success-msg"></div>
+</div>
+
+<script>
+const SERVER_URL = "";
+
+const usernameEl = document.getElementById("username");
+const passwordEl = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const registerBtn = document.getElementById("registerBtn");
+const errorMsg = document.getElementById("errorMsg");
+const successMsg = document.getElementById("successMsg");
+
+function setButtonsBusy(busy) {
+  loginBtn.disabled = busy;
+  registerBtn.disabled = busy;
+}
+
+function clearMessages() {
+  errorMsg.textContent = "";
+  successMsg.textContent = "";
+}
+
+// ─── 登录 ───
+loginBtn.addEventListener("click", async () => {
+  const username = usernameEl.value.trim();
+  const password = passwordEl.value.trim();
+  if (!username || !password) {
+    errorMsg.textContent = "请输入用户名和密码";
+    return;
+  }
+
+  clearMessages();
+  setButtonsBusy(true);
+  loginBtn.textContent = "登录中...";
+
+  try {
+    const resp = await fetch(`${SERVER_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await resp.json();
+
+    if (data.status === "ok") {
+      // 跳转到游戏页，带上 player_id
+      window.location.href = `game.html?player_id=${data.player_id}`;
+    } else {
+      errorMsg.textContent = "登录失败，用户名或密码错误";
+    }
+  } catch (err) {
+    errorMsg.textContent = "无法连接服务器，请确认后端已启动";
+  } finally {
+    setButtonsBusy(false);
+    loginBtn.textContent = "登 录";
+  }
+});
+
+// ─── 注册 ───
+registerBtn.addEventListener("click", async () => {
+  const username = usernameEl.value.trim();
+  const password = passwordEl.value.trim();
+  if (!username || !password) {
+    errorMsg.textContent = "请输入用户名和密码";
+    return;
+  }
+
+  clearMessages();
+  setButtonsBusy(true);
+  registerBtn.textContent = "注册中...";
+
+  try {
+    const resp = await fetch(`${SERVER_URL}/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await resp.json();
+
+    if (data.status === "ok") {
+      successMsg.textContent = "注册成功，请登录";
+      // 清空密码，保留用户名方便直接登录
+      passwordEl.value = "";
+    } else {
+      errorMsg.textContent = data.detail || "注册失败，用户名可能已存在";
+    }
+  } catch (err) {
+    errorMsg.textContent = "无法连接服务器，请确认后端已启动";
+  } finally {
+    setButtonsBusy(false);
+    registerBtn.textContent = "注 册";
+  }
+});
+
+// ─── 回车键触发登录 ───
+passwordEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") loginBtn.click();
+});
+usernameEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") loginBtn.click();
+});
+</script>
+
+</body>
+</html>
