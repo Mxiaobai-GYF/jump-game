@@ -119,3 +119,12 @@ def leaderboard():
         })
 
     return rows
+
+from fastapi import FastAPI
+
+app = FastAPI(title="Game Server", version="1.0.0")
+
+# 在这里添加根路由
+@app.get("/")
+def home():
+    return {"message": "跳一跳游戏服务器已启动"}
