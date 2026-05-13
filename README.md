@@ -1,5 +1,5 @@
 # 像素跳跃 · 云端版 🎮
-我成功将本游戏部署在railway，访问：https://jump-game-production.up.railway.app即可在线游戏
+我成功将本游戏部署在railway，访问：https://jump-game-production.up.railway.app    即可在线游戏
 > 按住鼠标蓄力，滑动改变抛物线方向，松开跳跃！
 > 踩平台得分，吃星星加分，和好友比比谁跳得更高。
 
