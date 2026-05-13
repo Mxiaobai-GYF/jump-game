@@ -20,6 +20,15 @@ from models import SignupRequest, LoginRequest, SubmitScoreRequest
 app = FastAPI(title="Game Server", version="1.0.0")
 
 # ── CORS 中间件（允许 file:// 源和跨域请求） ──
+# ── 静态文件托管 ──
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def read_root():
+    return FileResponse("static/index.html")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -119,12 +128,3 @@ def leaderboard():
         })
 
     return rows
-
-from fastapi import FastAPI
-
-app = FastAPI(title="Game Server", version="1.0.0")
-
-# 在这里添加根路由
-@app.get("/")
-def home():
-    return {"message": "跳一跳游戏服务器已启动"}
