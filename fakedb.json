@@ -1,0 +1,42 @@
+{
+  "players": {
+    "GYF": {
+      "username": "GYF",
+      "password": "dd21581490cc65f321fd0715c3fe3c49449d67c85b8e887d51abcedea214e0b0",
+      "id": "30f031fc-5f3a-4cba-b3be-bd419f6939c0",
+      "created_at": 1778665826.6039762
+    },
+    "w、": {
+      "username": "w、",
+      "password": "50e721e49c013f00c62cf59f2163542a9d8df02464efeb615d31051b0fddc326",
+      "id": "fb71c055-b946-4e44-ad4e-e168db4d6d1a",
+      "created_at": 1778665984.9001803
+    },
+    "root": {
+      "username": "root",
+      "password": "d17f25ecfbcc7857f7bebea469308be0b2580943e96d13a3ad98a13675c4bfc2",
+      "id": "c977079d-de4e-4bff-9623-0d32bc619f90",
+      "created_at": 1778666063.9285696
+    },
+    "ROOT": {
+      "username": "ROOT",
+      "password": "d17f25ecfbcc7857f7bebea469308be0b2580943e96d13a3ad98a13675c4bfc2",
+      "id": "93615e7e-1c63-4889-9626-6b77e7e52351",
+      "created_at": 1778672621.2660866
+    }
+  },
+  "scores": [
+    {
+      "id": 1,
+      "player_id": "c977079d-de4e-4bff-9623-0d32bc619f90",
+      "score": 146,
+      "created_at": 1778673432.014972
+    },
+    {
+      "id": 2,
+      "player_id": "93615e7e-1c63-4889-9626-6b77e7e52351",
+      "score": 44,
+      "created_at": 1778672660.5813453
+    }
+  ]
+}
